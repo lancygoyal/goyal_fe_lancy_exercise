@@ -5,7 +5,7 @@ export const Container = styled.div<{hasNavigation: boolean}>`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    background: #fff;
+    background-color: #fff;
     color: #000;
     padding: 20px;
     width: 250px;
@@ -18,4 +18,14 @@ export const Container = styled.div<{hasNavigation: boolean}>`
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+`;
+
+export const Text = styled.p`
+    background-color: #fff;
+    color: #000;
+`;
+
+export const Icon = styled.span`
+    background-color: #fff;
+    color: #000;
 `;

@@ -28,4 +28,5 @@ export const BackButton = styled.button`
     width: 40px;
     height: 40px;
     outline: 0;
+    background-color: #fff;
 `;

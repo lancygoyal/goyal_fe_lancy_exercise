@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Team, UserData} from 'types';
-import {Container} from './styles';
+import {Container, Text, Icon} from './styles';
 
 interface Props {
     id?: string;
@@ -37,9 +37,9 @@ const Card = ({
             }}
         >
             {columns.map(({key: columnKey, value}, i) => (
-                <p key={`cardRow-${id}-${i}`}>
-                    <strong>{columnKey}</strong>&nbsp;{value}
-                </p>
+                <Text key={`cardRow-${id}-${i}`}>
+                    <Icon>{columnKey}</Icon>&nbsp;{value}
+                </Text>
             ))}
         </Container>
     );
