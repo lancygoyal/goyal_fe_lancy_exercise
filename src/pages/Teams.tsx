@@ -1,28 +1,13 @@
 import * as React from 'react';
-import {ListItem, Teams as TeamsList} from 'types';
-import {getTeams as fetchTeams} from '../api';
+import {TextBox} from 'components/Input';
 import Header from '../components/Header';
 import List from '../components/List';
 import {Container} from '../components/GlobalComponents';
-
-var MapT = (teams: TeamsList[]) => {
-    return teams.map(team => {
-        var columns = [
-            {
-                key: 'Name',
-                value: team.name,
-            },
-        ];
-        return {
-            id: team.id,
-            url: `/team/${team.id}`,
-            columns,
-            navigationProps: team,
-        } as ListItem;
-    });
-};
+import {mapTeams} from './utils';
+import {getTeams as fetchTeams} from '../api';
 
 const Teams = () => {
+    const [search, setSearch] = React.useState<any>('');
     const [teams, setTeams] = React.useState<any>([]);
     const [isLoading, setIsLoading] = React.useState<any>(true);
 
@@ -35,10 +20,21 @@ const Teams = () => {
         getTeams();
     }, []);
 
+    const teams_ = React.useMemo(
+        () => teams.filter(team => team.name.toLowerCase().includes(search)),
+        [search, teams]
+    );
+
     return (
         <Container>
             <Header title="Teams" showBackButton={false} />
-            <List items={MapT(teams)} isLoading={isLoading} />
+            <TextBox
+                placeholder="Search Team"
+                onType={value => {
+                    setSearch(value.toLowerCase());
+                }}
+            />
+            <List items={mapTeams(teams_, search)} isLoading={isLoading} />
         </Container>
     );
 };
