@@ -11,7 +11,13 @@ interface Props {
     onSearch?: (val) => void;
 }
 
-const Header = ({title, showBackButton = true, showSearchBox, SearchBox, onSearch}: Props) => {
+const Header = ({
+    title,
+    showBackButton = true,
+    showSearchBox,
+    SearchBox,
+    onSearch = () => {},
+}: Props) => {
     const navigate = useNavigate();
 
     return (
@@ -30,6 +36,7 @@ const Header = ({title, showBackButton = true, showSearchBox, SearchBox, onSearc
             </NavigationHeader>
             {showSearchBox && (
                 <TextBox
+                    id="search"
                     placeholder={SearchBox}
                     onType={value => {
                         onSearch(value.toLowerCase());

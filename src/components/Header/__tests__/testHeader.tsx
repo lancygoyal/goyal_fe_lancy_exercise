@@ -47,4 +47,16 @@ describe('Header', () => {
 
         expect(mockUseNavigate).toHaveBeenCalled();
     });
+
+    it('should render search textbox', () => {
+        render(<Header title="Test" showSearchBox />);
+
+        const searchbox: HTMLInputElement = screen.getByTestId('textbox-search');
+
+        expect(searchbox).toBeInTheDocument();
+
+        fireEvent.change(searchbox, {target: {value: 'Test'}});
+
+        expect(searchbox.value).toBe('Test');
+    });
 });
