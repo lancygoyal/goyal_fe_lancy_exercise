@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.div`
-    height: 100px;
-    width: 100%;
-    margin: 10px;
     display: flex;
-    flex-direction: column;
+    width: 85%;
+    margin: 20px;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
 `;
@@ -14,7 +13,6 @@ export const Title = styled.h1``;
 
 export const NavigationHeader = styled.div`
     display: flex;
-    width: 100%;
     align-items: center;
     justify-content: flex-start;
 `;

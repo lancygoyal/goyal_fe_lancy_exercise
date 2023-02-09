@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {TextBox} from 'components/Input';
 import Header from '../components/Header';
 import List from '../components/List';
 import {Container} from '../components/GlobalComponents';
@@ -27,10 +26,12 @@ const Teams = () => {
 
     return (
         <Container>
-            <Header title="Teams" showBackButton={false} />
-            <TextBox
-                placeholder="Search Team"
-                onType={value => {
+            <Header
+                title="Teams"
+                showBackButton={false}
+                showSearchBox
+                SearchBox="Search Team"
+                onSearch={value => {
                     setSearch(value.toLowerCase());
                 }}
             />

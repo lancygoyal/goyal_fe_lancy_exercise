@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {TextBox} from 'components/Input';
 import {useLocation, useParams} from 'react-router-dom';
 import {UserData} from 'types';
 import {getTeamOverview, getUserData, getUsers} from '../api';
@@ -50,10 +49,11 @@ const TeamOverview = () => {
 
     return (
         <Container>
-            <Header title={`Team ${location.state.name}`} />
-            <TextBox
-                placeholder="Search Member"
-                onType={value => {
+            <Header
+                title={`Team ${location.state.name}`}
+                showSearchBox
+                SearchBox="Search Member"
+                onSearch={value => {
                     setSearch(value.toLowerCase());
                 }}
             />
