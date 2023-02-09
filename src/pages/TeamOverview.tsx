@@ -50,7 +50,7 @@ const TeamOverview = () => {
     return (
         <Container>
             <Header
-                title={`Team ${location.state.name}`}
+                title={`💠 ${location.state.name}`}
                 showSearchBox
                 SearchBox="Search Member"
                 onSearch={value => {

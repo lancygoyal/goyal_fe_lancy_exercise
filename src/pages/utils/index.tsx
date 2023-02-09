@@ -3,7 +3,7 @@ import {Team, ListItem, UserData} from 'types';
 
 const getHighlightedText = (text, search) => {
     // Split text on search term, include term itself into parts, ignore case
-    var parts = text.split(new RegExp(`(${search})`, 'gi'));
+    const parts = text.split(new RegExp(`(${search})`, 'gi'));
     return parts.map((part, index) => (
         <React.Fragment key={index}>
             {part.toLowerCase() === search ? (
@@ -19,7 +19,7 @@ export const mapTeams = (teams: Team[], search) => {
     return teams.map(team => {
         const columns = [
             {
-                key: 'Name',
+                key: '💠',
                 value: getHighlightedText(team?.name, search),
             },
         ];
@@ -33,29 +33,21 @@ export const mapTeams = (teams: Team[], search) => {
 };
 
 export const mapUser = (usr: UserData, isTL?: boolean, search?: string) => {
-    let columns = [
+    const columns = [
         {
-            key: 'Name',
+            key: isTL ? '🥷' : '🙂',
             value: getHighlightedText(`${usr.firstName} ${usr.lastName}`, search),
         },
         {
-            key: 'Display Name',
+            key: '🔥',
             value: usr.displayName,
         },
         {
-            key: 'Location',
+            key: '📍',
             value: usr.location,
         },
     ];
-    if (isTL) {
-        columns = [
-            {
-                key: 'Team Lead',
-                value: '',
-            },
-            ...columns,
-        ];
-    }
+
     return {
         id: usr.id,
         url: `/user/${usr.id}`,

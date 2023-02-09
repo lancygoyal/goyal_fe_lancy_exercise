@@ -36,8 +36,8 @@ const Card = ({
                 e.preventDefault();
             }}
         >
-            {columns.map(({key: columnKey, value}) => (
-                <p key={columnKey}>
+            {columns.map(({key: columnKey, value}, i) => (
+                <p key={`cardRow-${id}-${i}`}>
                     <strong>{columnKey}</strong>&nbsp;{value}
                 </p>
             ))}

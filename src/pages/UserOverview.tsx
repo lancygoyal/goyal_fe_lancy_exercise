@@ -9,7 +9,11 @@ const UserOverview = () => {
     const location = useLocation();
     return (
         <Container>
-            <Header title={`User ${location.state.firstName} ${location.state.lastName}`} />
+            <Header
+                title={`${location.state.isTL ? '🥷' : '🙂'} ${location.state.firstName} ${
+                    location.state.lastName
+                }`}
+            />
             <Card {...mapUser(location.state, location.state.isTL)} />
         </Container>
     );

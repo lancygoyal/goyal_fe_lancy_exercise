@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const HeaderContainer = styled.div`
     display: flex;
-    width: 85%;
+    width: 92%;
     margin: 20px;
     flex-direction: row;
     align-items: center;
@@ -21,7 +21,7 @@ export const BackButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 5px;
+    margin: 10px;
     font-weight: bold;
     font-size: 18px;
     cursor: pointer;

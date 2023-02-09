@@ -23,7 +23,7 @@ const Header = ({title, showBackButton = true, showSearchBox, SearchBox, onSearc
                             navigate(-1);
                         }}
                     >
-                        🔙
+                        ↩️
                     </BackButton>
                 )}
                 <Title>{title}</Title>
