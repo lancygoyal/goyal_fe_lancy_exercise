@@ -56,7 +56,7 @@ describe('Header', () => {
         expect(searchbox).toBeInTheDocument();
     });
 
-    it('on typing search textbox it sould invoke the onSearch function', () => {
+    it('on typing in searchbox it should invoke the onSearch function', () => {
         const onSearch = jest.fn();
 
         render(<Header title="Test" showSearchBox onSearch={onSearch} />);

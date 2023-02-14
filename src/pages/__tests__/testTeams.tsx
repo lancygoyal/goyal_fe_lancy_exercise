@@ -76,11 +76,15 @@ describe('Teams', () => {
         jest.spyOn(API, 'getTeams').mockResolvedValue([
             {
                 id: '1',
-                name: 'Team1',
+                name: 'Team-ABC',
             },
             {
                 id: '2',
-                name: 'Team2',
+                name: 'Team-IJK',
+            },
+            {
+                id: '2',
+                name: 'Team-XYZ',
             },
         ]);
 
@@ -90,10 +94,10 @@ describe('Teams', () => {
 
         const searchbox: HTMLInputElement = screen.getByTestId('textbox-search');
 
-        fireEvent.change(searchbox, {target: {value: 'Team1'}});
+        fireEvent.change(searchbox, {target: {value: 'ijk'}});
 
-        expect(searchbox.value).toBe('Team1');
+        expect(searchbox.value).toBe('ijk');
 
-        expect(screen.getByText('Team1')).toBeInTheDocument();
+        expect(screen.getByText('IJK')).toBeInTheDocument();
     });
 });
