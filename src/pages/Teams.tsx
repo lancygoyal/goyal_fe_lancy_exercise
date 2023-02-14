@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Team} from 'types';
 import Header from '../components/Header';
 import List from '../components/List';
 import {Container} from '../components/GlobalComponents';
@@ -6,9 +7,9 @@ import {mapTeams} from './utils';
 import {getTeams as fetchTeams} from '../api';
 
 const Teams = () => {
-    const [search, setSearch] = React.useState<any>('');
-    const [teams, setTeams] = React.useState<any>([]);
-    const [isLoading, setIsLoading] = React.useState<any>(true);
+    const [search, setSearch] = React.useState<string>('');
+    const [teams, setTeams] = React.useState<Team[]>([]);
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
         const getTeams = async () => {

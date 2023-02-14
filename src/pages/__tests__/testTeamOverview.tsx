@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {TeamOverview as TeamOverviewType, UserData} from 'types';
 import {render, screen, waitFor} from '@testing-library/react';
 import * as API from '../../api';
 import TeamOverview from '../TeamOverview';
@@ -48,12 +49,14 @@ describe('TeamOverview', () => {
             {...userData, id: '5'},
         ];
         jest.spyOn(API, 'getTeamOverview').mockImplementationOnce(() =>
-            Promise.resolve(teamOverview as any)
+            Promise.resolve(teamOverview as TeamOverviewType)
         );
         jest.spyOn(API, 'getUserData').mockImplementationOnce(() =>
-            Promise.resolve(userData as any)
+            Promise.resolve(userData as UserData)
         );
-        jest.spyOn(API, 'getUsers').mockImplementationOnce(() => Promise.resolve(users as any));
+        jest.spyOn(API, 'getUsers').mockImplementationOnce(() =>
+            Promise.resolve(users as UserData[])
+        );
 
         render(<TeamOverview />);
 

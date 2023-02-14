@@ -16,7 +16,7 @@ interface PageState {
 const TeamOverview = () => {
     const location = useLocation();
     const {teamId} = useParams();
-    const [search, setSearch] = React.useState<any>('');
+    const [search, setSearch] = React.useState<string>('');
     const [pageData, setPageData] = React.useState<PageState>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
