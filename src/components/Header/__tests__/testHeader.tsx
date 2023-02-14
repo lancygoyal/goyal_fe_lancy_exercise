@@ -47,4 +47,26 @@ describe('Header', () => {
 
         expect(mockUseNavigate).toHaveBeenCalled();
     });
+
+    it('should render search textbox', () => {
+        render(<Header title="Test" showSearchBox />);
+
+        const searchbox: HTMLInputElement = screen.getByTestId('textbox-search');
+
+        expect(searchbox).toBeInTheDocument();
+    });
+
+    it('on typing in searchbox it should invoke the onSearch function', () => {
+        const onSearch = jest.fn();
+
+        render(<Header title="Test" showSearchBox onSearch={onSearch} />);
+
+        const searchbox: HTMLInputElement = screen.getByTestId('textbox-search');
+
+        fireEvent.change(searchbox, {target: {value: 'hello'}});
+
+        expect(searchbox.value).toBe('hello');
+
+        expect(onSearch).toHaveBeenCalledWith(expect.stringContaining('hello'));
+    });
 });

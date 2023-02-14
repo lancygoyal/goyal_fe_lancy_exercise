@@ -1,16 +1,12 @@
+/* eslint-disable testing-library/no-unnecessary-act */
 import * as React from 'react';
-import {fireEvent, render, screen, waitFor, act} from '@testing-library/react';
+import {render, screen, act, fireEvent} from '@testing-library/react';
 import * as API from '../../api';
 import Teams from '../Teams';
 
 jest.mock('react-router-dom', () => ({
     useLocation: () => ({
-        state: {
-            firstName: 'Test',
-            lastName: 'User',
-            displayName: 'userName',
-            location: 'location',
-        },
+        state: {},
     }),
     useNavigate: () => ({}),
 }));
@@ -29,7 +25,9 @@ describe('Teams', () => {
     });
 
     it('should render spinner while loading', async () => {
-        // TODO - Add code for this test
+        render(<Teams />);
+
+        expect(screen.getByTestId('spinner')).toBeInTheDocument();
     });
 
     it('should render teams list', async () => {
@@ -44,11 +42,62 @@ describe('Teams', () => {
             },
         ]);
 
-        render(<Teams />);
-
-        await waitFor(() => {
-            expect(screen.getByText('Team1')).toBeInTheDocument();
+        await act(async () => {
+            render(<Teams />);
         });
+
+        expect(screen.getByText('Team1')).toBeInTheDocument();
+
         expect(screen.getByText('Team2')).toBeInTheDocument();
+    });
+
+    it('should render search textbox', async () => {
+        jest.spyOn(API, 'getTeams').mockResolvedValue([
+            {
+                id: '1',
+                name: 'Team1',
+            },
+            {
+                id: '2',
+                name: 'Team2',
+            },
+        ]);
+
+        await act(async () => {
+            render(<Teams />);
+        });
+
+        const searchbox: HTMLInputElement = screen.getByTestId('textbox-search');
+
+        expect(searchbox).toBeInTheDocument();
+    });
+
+    it('should search for text', async () => {
+        jest.spyOn(API, 'getTeams').mockResolvedValue([
+            {
+                id: '1',
+                name: 'Team-ABC',
+            },
+            {
+                id: '2',
+                name: 'Team-IJK',
+            },
+            {
+                id: '2',
+                name: 'Team-XYZ',
+            },
+        ]);
+
+        await act(async () => {
+            render(<Teams />);
+        });
+
+        const searchbox: HTMLInputElement = screen.getByTestId('textbox-search');
+
+        fireEvent.change(searchbox, {target: {value: 'ijk'}});
+
+        expect(searchbox.value).toBe('ijk');
+
+        expect(screen.getByText('IJK')).toBeInTheDocument();
     });
 });

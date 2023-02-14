@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {Teams, UserData} from 'types';
-import {Container} from './styles';
+import {Team, UserData} from 'types';
+import {Container, Text, Icon} from './styles';
 
 interface Props {
     id?: string;
@@ -11,7 +11,7 @@ interface Props {
         value: string;
     }>;
     hasNavigation?: boolean;
-    navigationProps?: UserData | Teams;
+    navigationProps?: UserData | Team;
 }
 
 const Card = ({
@@ -36,10 +36,10 @@ const Card = ({
                 e.preventDefault();
             }}
         >
-            {columns.map(({key: columnKey, value}) => (
-                <p key={columnKey}>
-                    <strong>{columnKey}</strong>&nbsp;{value}
-                </p>
+            {columns.map(({key: columnKey, value}, i) => (
+                <Text key={`cardRow-${id}-${i}`}>
+                    <Icon>{columnKey}</Icon>&nbsp;{value}
+                </Text>
             ))}
         </Container>
     );

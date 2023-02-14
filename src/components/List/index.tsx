@@ -7,15 +7,16 @@ import {Container} from './styles';
 interface Props {
     items?: ListItem[];
     hasNavigation?: boolean;
-    isLoading: string;
+    isLoading: boolean;
 }
 
 const List = ({items, hasNavigation = true, isLoading}: Props) => {
     return (
         <Container>
-            {isLoading && <Spinner />}
-            {!isLoading &&
-                items.map(({url, id, columns, navigationProps}, index) => {
+            {isLoading ? (
+                <Spinner />
+            ) : (
+                items.map(({id, url, columns, navigationProps}, index) => {
                     return (
                         <Card
                             key={`${id}-${index}`}
@@ -26,7 +27,8 @@ const List = ({items, hasNavigation = true, isLoading}: Props) => {
                             url={url}
                         />
                     );
-                })}
+                })
+            )}
         </Container>
     );
 };

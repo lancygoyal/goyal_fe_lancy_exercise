@@ -1,58 +1,12 @@
 import * as React from 'react';
 import {useLocation, useParams} from 'react-router-dom';
-import {ListItem, UserData} from 'types';
-import {getTeamOverview, getUserData} from '../api';
+import {UserData} from 'types';
+import {getTeamOverview, getUserData, getUsers} from '../api';
 import Card from '../components/Card';
 import {Container} from '../components/GlobalComponents';
 import Header from '../components/Header';
 import List from '../components/List';
-
-var mapArray = (users: UserData[]) => {
-    return users.map(u => {
-        var columns = [
-            {
-                key: 'Name',
-                value: `${u.firstName} ${u.lastName}`,
-            },
-            {
-                key: 'Display Name',
-                value: u.displayName,
-            },
-            {
-                key: 'Location',
-                value: u.location,
-            },
-        ];
-        return {
-            id: u.id,
-            url: `/user/${u.id}`,
-            columns,
-            navigationProps: u,
-        };
-    }) as ListItem[];
-};
-
-var mapTLead = tlead => {
-    var columns = [
-        {
-            key: 'Team Lead',
-            value: '',
-        },
-        {
-            key: 'Name',
-            value: `${tlead.firstName} ${tlead.lastName}`,
-        },
-        {
-            key: 'Display Name',
-            value: tlead.displayName,
-        },
-        {
-            key: 'Location',
-            value: tlead.location,
-        },
-    ];
-    return <Card columns={columns} url={`/user/${tlead.id}`} navigationProps={tlead} />;
-};
+import {mapUser, mapUsers} from './utils';
 
 interface PageState {
     teamLead?: UserData;
@@ -62,33 +16,49 @@ interface PageState {
 const TeamOverview = () => {
     const location = useLocation();
     const {teamId} = useParams();
+    const [search, setSearch] = React.useState<string>('');
     const [pageData, setPageData] = React.useState<PageState>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
-        var getTeamUsers = async () => {
-            const {teamLeadId, teamMemberIds = []} = await getTeamOverview(teamId);
+        const getTeamUsers = async () => {
+            const {teamLeadId = '', teamMemberIds = []} = await getTeamOverview(teamId);
             const teamLead = await getUserData(teamLeadId);
+            const teamMembers = await getUsers(teamMemberIds);
 
-            const teamMembers = [];
-            for(var teamMemberId of teamMemberIds) {
-                const data = await getUserData(teamMemberId);
-                teamMembers.push(data);
-            }
             setPageData({
                 teamLead,
                 teamMembers,
             });
+
             setIsLoading(false);
         };
         getTeamUsers();
     }, [teamId]);
 
+    const members_ = React.useMemo(
+        () =>
+            (pageData?.teamMembers ?? []).filter(
+                team =>
+                    team.firstName.toLowerCase().includes(search) ||
+                    team.lastName.toLowerCase().includes(search) ||
+                    team.displayName.toLowerCase().includes(search)
+            ),
+        [search, pageData]
+    );
+
     return (
         <Container>
-            <Header title={`Team ${location.state.name}`} />
-            {!isLoading && mapTLead(pageData.teamLead)}
-            <List items={mapArray(pageData?.teamMembers ?? [])} isLoading={isLoading} />
+            <Header
+                title={`💠 ${location.state.name}`}
+                showSearchBox
+                SearchBox="Search Member"
+                onSearch={value => {
+                    setSearch(value.toLowerCase());
+                }}
+            />
+            {!isLoading && <Card {...mapUser(pageData.teamLead, true)} />}
+            <List items={mapUsers(members_, search)} isLoading={isLoading} />
         </Container>
     );
 };
