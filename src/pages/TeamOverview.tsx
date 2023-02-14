@@ -22,7 +22,7 @@ const TeamOverview = () => {
 
     React.useEffect(() => {
         const getTeamUsers = async () => {
-            const {teamLeadId, teamMemberIds = []} = await getTeamOverview(teamId);
+            const {teamLeadId = '', teamMemberIds = []} = await getTeamOverview(teamId);
             const teamLead = await getUserData(teamLeadId);
             const teamMembers = await getUsers(teamMemberIds);
 
