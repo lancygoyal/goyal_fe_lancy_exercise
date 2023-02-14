@@ -1,5 +1,6 @@
+/* eslint-disable testing-library/no-unnecessary-act */
 import * as React from 'react';
-import {render, screen, waitFor, fireEvent} from '@testing-library/react';
+import {render, screen, act, fireEvent} from '@testing-library/react';
 import * as API from '../../api';
 import Teams from '../Teams';
 
@@ -41,11 +42,11 @@ describe('Teams', () => {
             },
         ]);
 
-        render(<Teams />);
-
-        await waitFor(() => {
-            expect(screen.getByText('Team1')).toBeInTheDocument();
+        await act(async () => {
+            render(<Teams />);
         });
+
+        expect(screen.getByText('Team1')).toBeInTheDocument();
 
         expect(screen.getByText('Team2')).toBeInTheDocument();
     });
@@ -62,13 +63,13 @@ describe('Teams', () => {
             },
         ]);
 
-        render(<Teams />);
+        await act(async () => {
+            render(<Teams />);
+        });
 
         const searchbox: HTMLInputElement = screen.getByTestId('textbox-search');
 
-        await waitFor(() => {
-            expect(searchbox).toBeInTheDocument();
-        });
+        expect(searchbox).toBeInTheDocument();
     });
 
     it('should search for text', async () => {
@@ -83,18 +84,16 @@ describe('Teams', () => {
             },
         ]);
 
-        render(<Teams />);
+        await act(async () => {
+            render(<Teams />);
+        });
 
         const searchbox: HTMLInputElement = screen.getByTestId('textbox-search');
 
         fireEvent.change(searchbox, {target: {value: 'Team1'}});
 
-        await waitFor(() => {
-            expect(searchbox.value).toBe('Team1');
-        });
+        expect(searchbox.value).toBe('Team1');
 
-        await waitFor(() => {
-            expect(screen.getByText('Team1')).toBeInTheDocument();
-        });
+        expect(screen.getByText('Team1')).toBeInTheDocument();
     });
 });
