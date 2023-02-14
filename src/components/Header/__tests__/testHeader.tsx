@@ -54,9 +54,19 @@ describe('Header', () => {
         const searchbox: HTMLInputElement = screen.getByTestId('textbox-search');
 
         expect(searchbox).toBeInTheDocument();
+    });
 
-        fireEvent.change(searchbox, {target: {value: 'Test'}});
+    it('on typing search textbox it sould invoke the onSearch function', () => {
+        const onSearch = jest.fn();
 
-        expect(searchbox.value).toBe('Test');
+        render(<Header title="Test" showSearchBox onSearch={onSearch} />);
+
+        const searchbox: HTMLInputElement = screen.getByTestId('textbox-search');
+
+        fireEvent.change(searchbox, {target: {value: 'hello'}});
+
+        expect(searchbox.value).toBe('hello');
+
+        expect(onSearch).toHaveBeenCalledWith(expect.stringContaining('hello'));
     });
 });
